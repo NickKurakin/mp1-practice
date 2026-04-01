@@ -23,6 +23,7 @@
     <ProjectGuid>{1946AF6C-D166-43A2-B928-6CD3590A3053}</ProjectGuid>
     <RootNamespace>Task22c</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Task2_2_cpp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -123,9 +124,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="auxiliary.c" />
-    <ClCompile Include="find.c" />
-    <ClCompile Include="main.c" />
+    <ClCompile Include="auxiliary.cpp" />
+    <ClCompile Include="find.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="universities.txt" />
