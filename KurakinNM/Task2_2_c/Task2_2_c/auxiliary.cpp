@@ -119,30 +119,24 @@ void readFloatLine(char** input, float* outNums, int len)
 	}
 }
 
-void read(char* fileName, DBUniversities* DBunivers)
+void read(string fileName, DBUniversities* DBunivers)
 {
-	FILE* f;
-	int n = 0, i, j;
+	ifstream f(fileName);
+	int n = 0;
 	char* num;
-	char buffer[255]; char* token;
+	string buffer; char* token;
 	unsigned int* numOfSpecialties;
-
-	f = fopen(fileName, "r");
-	while (!feof(f))
-	{
-		fgets(buffer, 255, f);
-		n++;
-	}
+	while (getline(f, buffer)) n++;
+	cout << n << endl;
 	DBunivers->count = n;
 
 
-	numOfSpecialties = (unsigned int*)malloc(n * sizeof(unsigned int));
-	for (i = 0; i < n; i++) { numOfSpecialties[i] = 0; }
-	i = 0;
-	fseek(f, 0, SEEK_SET);
-	for (i = 0; i < n; i++)
+	numOfSpecialties = new unsigned int[n];
+	for (int i = 0; i < n; i++) { numOfSpecialties[i] = 0; }
+	f.seekg(0);
+	for (int i = 0; i < n; i++)
 	{
-		fgets(buffer, 255, f);
+		getline(f, buffer);
 		token = strtok(buffer, ";");
 		token = strtok(NULL, ";");
 		token = strtok(NULL, ";");
@@ -185,20 +179,12 @@ void read(char* fileName, DBUniversities* DBunivers)
 			readWord(token, &(DBunivers->universities[i].specialties[j]));
 			token = strtok(NULL, ",;");
 		}
-		/*for (j = 0; j < (*universities)[i].numOfSpecialties; j++)
-		{
-			readWord(token, &num);
-			(*universities)[i].contestDay[j] = atoi(num);
-			token = strtok(NULL, ",;");
-		}*/
 		readNumLine(&token, DBunivers->universities[i].contestDay, DBunivers->universities[i].numOfSpecialties);
 		readNumLine(&token, DBunivers->universities[i].contestNight, DBunivers->universities[i].numOfSpecialties);
 		readNumLine(&token, DBunivers->universities[i].contestOnline, DBunivers->universities[i].numOfSpecialties);
 		readFloatLine(&token, DBunivers->universities[i].cost, DBunivers->universities[i].numOfSpecialties);
 	}
-
-	fclose(f);
-	return n;
+	f.close();
 }
 
 void output(DBUniversities* univs)

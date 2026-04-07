@@ -2,20 +2,23 @@
 #define _UNIVERSITY_
 
 #include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
 
 typedef struct {
-	char* city;
-	char* street;
-	char* home;
+	string city;
+	string street;
+	string home;
 } Adres;
 
 typedef struct {
-	char* name;
+	string name;
 	Adres adres;
 	unsigned int numOfSpecialties;
-	char** specialties;
+	string* specialties;
 	unsigned int* contestDay;
 	unsigned int* contestNight;
 	unsigned int* contestOnline;
@@ -29,7 +32,7 @@ typedef struct {
 
 void freeDBU(DBUniversities* DB);
 
-void read(char* fileName, DBUniversities* universities); // DBUniversities*
+void read(string fileName, DBUniversities* universities); // DBUniversities*
 void output(DBUniversities* univs); // DBUniversities*
 
 void allAboutUniver(DBUniversities* univs, char* name); // DBUniversities*
