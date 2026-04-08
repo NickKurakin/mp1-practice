@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <string>
 
@@ -32,8 +33,8 @@ typedef struct {
 
 void freeDBU(DBUniversities* DB);
 
-void read(string fileName, DBUniversities* universities); // DBUniversities*
-void output(DBUniversities* univs); // DBUniversities*
+void read(string fileName, DBUniversities& universities); // DBUniversities*
+void output(DBUniversities& univs); // DBUniversities*
 
 void allAboutUniver(DBUniversities* univs, char* name); // DBUniversities*
 void allAboutSpec(DBUniversities* univs, char* special); // DBUniversities*

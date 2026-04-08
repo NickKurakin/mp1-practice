@@ -9,7 +9,7 @@ int main()
 	string str;
 	system("chcp 1251");
 	system("cls");
-	read("universities.txt", &DBUnivers);
+	read("universities.txt", DBUnivers);
 
 	while(work)
 	{
@@ -25,6 +25,7 @@ int main()
 			while (getchar() != '\n');
 			cout << "¬ведите название вуза: ";
 			cin >> str;
+			cin.ignore();
 			allAboutUniver(&DBUnivers, str);
 			break;*/
 		/*case 2:
@@ -42,12 +43,12 @@ int main()
 			minContestSpec(&FindedDBUnivers, &DBUnivers, str);
 			output(&FindedDBUnivers);
 			freeDBU(&FindedDBUnivers);
-			break;*/
+			break;
 		case 4:
 			findSpec(&DBUnivers);
-			break;
+			break;*/
 		case 5:
-			output(&DBUnivers);
+			output(DBUnivers);
 			break;
 		default:
 			while (getchar() != '\n');

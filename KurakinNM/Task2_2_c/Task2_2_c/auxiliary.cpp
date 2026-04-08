@@ -4,22 +4,14 @@
 
 void freeDBU(DBUniversities* DB)
 {
-	int i, j;
-	for (i = 0; i < DB->count; i++) {
-		for (j = 0; j < DB->universities[i].numOfSpecialties; j++)
-		{
-			free(DB->universities[i].specialties[j]);
-		}
-		free(DB->universities[i].name);
-		free(DB->universities[i].adres.city);
-		free(DB->universities[i].adres.street);
-		free(DB->universities[i].adres.home);
-		free(DB->universities[i].contestDay);
-		free(DB->universities[i].contestNight);
-		free(DB->universities[i].contestOnline);
-		free(DB->universities[i].cost);
+	for (int i = 0; i < DB->count; i++) {
+		delete[] DB->universities[i].specialties;
+		delete[] DB->universities[i].contestDay;
+		delete[] DB->universities[i].contestNight;
+		delete[] DB->universities[i].contestOnline;
+		delete[] DB->universities[i].cost;
 	}
-	free(DB->universities);
+	delete[] DB->universities;
 }
 
 void cpy(char** output, const char* input)
@@ -29,7 +21,7 @@ void cpy(char** output, const char* input)
 	strncpy(*output, input, len + 1);
 }
 
-void CopyU(University* universityCopy, const University* universityOriginal)
+/*void CopyU(University* universityCopy, const University* universityOriginal)
 {
 	int i;
 	universityCopy->numOfSpecialties = universityOriginal->numOfSpecialties;
@@ -50,9 +42,9 @@ void CopyU(University* universityCopy, const University* universityOriginal)
 	cpy(&(universityCopy->adres.street), universityOriginal->adres.street);
 	cpy(&(universityCopy->adres.home), universityOriginal->adres.home);
 	cpy(&(universityCopy->name), universityOriginal->name);
-}
+}*/
 
-void CopyUOnlyOneSpec(University* universityCopy, const University*  universityOriginal, char* spec)
+/*void CopyUOnlyOneSpec(University* universityCopy, const University*  universityOriginal, char* spec)
 {
 	int i;
 	universityCopy->numOfSpecialties = 1;
@@ -76,7 +68,7 @@ void CopyUOnlyOneSpec(University* universityCopy, const University*  universityO
 	cpy(&(universityCopy->adres.street), universityOriginal->adres.street);
 	cpy(&(universityCopy->adres.home), universityOriginal->adres.home);
 	cpy(&(universityCopy->name), universityOriginal->name);
-}
+}*/
 
 void bariers(char* str, int* start, int* numOfSims)
 {
@@ -106,6 +98,31 @@ void readNumLine(char** input, unsigned int* outNums, int len)
 	}
 }
 
+void readNumLine(unsigned int*& mass, const string& str, int n)
+{
+	std::istringstream iss(str);
+	for (int i = 0; i < n; i++)
+	{
+		iss >> mass[i];
+	}
+}
+void readNumLine(int*& mass, const string& str, int n)
+{
+	std::istringstream iss(str);
+	for (int i = 0; i < n; i++)
+	{
+		iss >> mass[i];
+	}
+}
+void readNumLine(float*& mass, const string& str, int n)
+{
+	std::istringstream iss(str);
+	for (int i = 0; i < n; i++)
+	{
+		iss >> mass[i];
+	}
+}
+
 void readFloatLine(char** input, float* outNums, int len)
 {
 	int i;
@@ -119,91 +136,94 @@ void readFloatLine(char** input, float* outNums, int len)
 	}
 }
 
-void read(string fileName, DBUniversities* DBunivers)
+void strReplaceAll(string& str, const string before, const string after)
+{
+	size_t pos = str.find(before);
+	while (pos != string::npos)
+	{
+		str.replace(pos, before.length(), after);
+		pos = str.find(before);
+	}
+}
+
+void read(string fileName, DBUniversities& DBunivers)
 {
 	ifstream f(fileName);
 	int n = 0;
 	char* num;
-	string buffer; char* token;
-	unsigned int* numOfSpecialties;
+	string buffer, token;
 	while (getline(f, buffer)) n++;
 	cout << n << endl;
-	//add nothing
-	DBunivers->count = n;
+	DBunivers.count = n;
+
+	f.seekg(0);
+
+	DBunivers.universities = new University[n];
+	for (int i = 0; i < n; i++)
+	{
+		getline(f, buffer);
+		DBunivers.universities[i].numOfSpecialties = (count(buffer.begin(), buffer.end(), ',') - 2) / 5 + 1;
+		DBunivers.universities[i].specialties = new string[DBunivers.universities[i].numOfSpecialties];
+		DBunivers.universities[i].contestDay = new unsigned int[DBunivers.universities[i].numOfSpecialties];
+		DBunivers.universities[i].contestNight = new unsigned int[DBunivers.universities[i].numOfSpecialties];
+		DBunivers.universities[i].contestOnline = new unsigned int[DBunivers.universities[i].numOfSpecialties];
+		DBunivers.universities[i].cost = new float[DBunivers.universities[i].numOfSpecialties];
+	}
 
 
-	numOfSpecialties = new unsigned int[n];
-	for (int i = 0; i < n; i++) { numOfSpecialties[i] = 0; }
 	f.seekg(0);
 	for (int i = 0; i < n; i++)
 	{
 		getline(f, buffer);
-		token = strtok(buffer, ";");
-		token = strtok(NULL, ";");
-		token = strtok(NULL, ";");
-		while (token != NULL)
+		strReplaceAll(buffer, " ;", ";");
+		strReplaceAll(buffer, "; ", ";");
+		strReplaceAll(buffer, " ,", ",");
+		strReplaceAll(buffer, ", ", ",");
+		stringstream ss(buffer);
+		getline(ss, DBunivers.universities[i].name, ';');
+		getline(ss, DBunivers.universities[i].adres.city, ',');
+		getline(ss, DBunivers.universities[i].adres.street, ',');
+		getline(ss, DBunivers.universities[i].adres.home, ';');
+		getline(ss, token, ';');
+		for (int j = 0; j < DBunivers.universities[i].numOfSpecialties; j++)
 		{
-			token = strstr(token + 1, ",");
-			numOfSpecialties[i]++;
+			stringstream ss2(token);
+			getline(ss2, DBunivers.universities[i].specialties[j], ',');
 		}
-	}
-
-
-	DBunivers->universities = (University*)malloc(n * sizeof(University));
-	for (i = 0; i < n; i++)
-	{
-		DBunivers->universities[i].numOfSpecialties = numOfSpecialties[i];
-		DBunivers->universities[i].specialties = (char**)malloc(numOfSpecialties[i] * sizeof(char*));
-		DBunivers->universities[i].contestDay = (unsigned int*)malloc(numOfSpecialties[i] * sizeof(unsigned int));
-		DBunivers->universities[i].contestNight = (unsigned int*)malloc(numOfSpecialties[i] * sizeof(unsigned int));
-		DBunivers->universities[i].contestOnline = (unsigned int*)malloc(numOfSpecialties[i] * sizeof(unsigned int));
-		DBunivers->universities[i].cost = (unsigned int*)malloc(numOfSpecialties[i] * sizeof(unsigned int));
-	}
-	free(numOfSpecialties);
-
-
-	fseek(f, 0, SEEK_SET);
-	for (i = 0; i < n; i++)
-	{
-		fgets(buffer, 255, f);
-		token = strtok(buffer, ",;");
-		readWord(token, &(DBunivers->universities[i].name));
-		token = strtok(NULL, ",;");
-		readWord(token, &(DBunivers->universities[i].adres.city));
-		token = strtok(NULL, ",;");
-		readWord(token, &(DBunivers->universities[i].adres.street));
-		token = strtok(NULL, ",;");
-		readWord(token, &(DBunivers->universities[i].adres.home));
-		token = strtok(NULL, ",;");
-		for (j = 0; j < DBunivers->universities[i].numOfSpecialties; j++)
-		{
-			readWord(token, &(DBunivers->universities[i].specialties[j]));
-			token = strtok(NULL, ",;");
-		}
-		readNumLine(&token, DBunivers->universities[i].contestDay, DBunivers->universities[i].numOfSpecialties);
-		readNumLine(&token, DBunivers->universities[i].contestNight, DBunivers->universities[i].numOfSpecialties);
-		readNumLine(&token, DBunivers->universities[i].contestOnline, DBunivers->universities[i].numOfSpecialties);
-		readFloatLine(&token, DBunivers->universities[i].cost, DBunivers->universities[i].numOfSpecialties);
+		getline(ss, token, ';');
+		strReplaceAll(token, ",", " ");
+		readNumLine(DBunivers.universities[i].contestDay, token, DBunivers.universities[i].numOfSpecialties);
+		getline(ss, token, ';');
+		strReplaceAll(token, ",", " ");
+		readNumLine(DBunivers.universities[i].contestNight, token, DBunivers.universities[i].numOfSpecialties);
+		getline(ss, token, ';');
+		strReplaceAll(token, ",", " ");
+		readNumLine(DBunivers.universities[i].contestOnline, token, DBunivers.universities[i].numOfSpecialties);
+		getline(ss, token, ';');
+		strReplaceAll(token, ",", " ");
+		readNumLine(DBunivers.universities[i].cost, token, DBunivers.universities[i].numOfSpecialties);
 	}
 	f.close();
 }
 
-void output(DBUniversities* univs)
+void output(DBUniversities& univs)
 {
-	int i, j;
-	for (i = 0; i < univs->count; i++)
+	for (int i = 0; i < univs.count; i++)
 	{
-		printf("Название вуза: %s\n", univs->universities[i].name);
-		printf("Адрес: %s, %s, %s\n", univs->universities[i].adres.city,
-			univs->universities[i].adres.street, univs->universities[i].adres.home);
-		printf("Специальности:\n");
-		for (j = 0; j < univs->universities[i].numOfSpecialties; j++)
+		cout << "Название вуза: " << univs.universities[i].name << endl;
+		cout << "Адрес: " << univs.universities[i].adres.city << ", "
+			<< univs.universities[i].adres.street << ", "
+			<< univs.universities[i].adres.home << endl;
+		cout << "Специальности:\n";
+		for (int j = 0; j < univs.universities[i].numOfSpecialties; j++)
 		{
-			printf("%s\n", univs->universities[i].specialties[j]);
-			printf("Конкурс прошлого года (Дневной/Вечерний/Заочный): %d/%d/%d\n",
-				univs->universities[i].contestDay[j], univs->universities[i].contestNight[j], univs->universities[i].contestOnline[j]);
-			printf("Оплата при договорном обучении: %.2fр.\n", univs->universities[i].cost[j]);
+			cout << univs.universities[i].specialties[j] << endl;
+			cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный): " <<
+				univs.universities[i].contestDay[j] << "/" <<
+				univs.universities[i].contestNight[j] << "/" <<
+				univs.universities[i].contestOnline[j] << endl;
+			cout << "Оплата при договорном обучении: " << univs.universities[i].cost[j] << endl;
 		}
-		printf("\n");
+		cout << endl;
 	}
 }
