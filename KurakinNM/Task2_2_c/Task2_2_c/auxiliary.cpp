@@ -128,6 +128,7 @@ void read(string fileName, DBUniversities* DBunivers)
 	unsigned int* numOfSpecialties;
 	while (getline(f, buffer)) n++;
 	cout << n << endl;
+	//add nothing
 	DBunivers->count = n;
 
 
