@@ -2,73 +2,67 @@
 
 #include "university.h"
 
-void freeDBU(DBUniversities* DB)
+void freeDBU(DBUniversities& DB)
 {
-	for (int i = 0; i < DB->count; i++) {
-		delete[] DB->universities[i].specialties;
-		delete[] DB->universities[i].contestDay;
-		delete[] DB->universities[i].contestNight;
-		delete[] DB->universities[i].contestOnline;
-		delete[] DB->universities[i].cost;
+	for (int i = 0; i < DB.count; i++) {
+		delete[] DB.universities[i].specialties;
+		delete[] DB.universities[i].contestDay;
+		delete[] DB.universities[i].contestNight;
+		delete[] DB.universities[i].contestOnline;
+		delete[] DB.universities[i].cost;
 	}
-	delete[] DB->universities;
+	delete[] DB.universities;
 }
 
-void cpy(char** output, const char* input)
+void CopyU(University& universityCopy, const University& universityOriginal)
 {
-	int len = strlen(input);
-	(*output) = (char*)malloc(len + 1);
-	strncpy(*output, input, len + 1);
+	int i;
+	universityCopy.numOfSpecialties = universityOriginal.numOfSpecialties;
+	universityCopy.specialties = new string[universityOriginal.numOfSpecialties];
+	universityCopy.contestDay = new unsigned int[universityOriginal.numOfSpecialties];
+	universityCopy.contestNight = new unsigned int[universityOriginal.numOfSpecialties];
+	universityCopy.contestOnline = new unsigned int[universityOriginal.numOfSpecialties];
+	universityCopy.cost = new float[universityOriginal.numOfSpecialties];
+	for (i = 0; i < universityOriginal.numOfSpecialties; i++)
+	{
+		universityCopy.specialties[i] = universityOriginal.specialties[i];
+		universityCopy.contestDay[i] = universityOriginal.contestDay[i];
+		universityCopy.contestNight[i] = universityOriginal.contestNight[i];
+		universityCopy.contestOnline[i] = universityOriginal.contestOnline[i];
+		universityCopy.cost[i] = universityOriginal.cost[i];
+	}
+	universityCopy.adres.city = universityOriginal.adres.city;
+	universityCopy.adres.street = universityOriginal.adres.street;
+	universityCopy.adres.home = universityOriginal.adres.home;
+	universityCopy.name = universityOriginal.name;
 }
 
-/*void CopyU(University* universityCopy, const University* universityOriginal)
+void CopyUOnlyOneSpec(University& universityCopy, const University& universityOriginal, string spec)
 {
 	int i;
-	universityCopy->numOfSpecialties = universityOriginal->numOfSpecialties;
-	universityCopy->specialties = (char**)malloc(universityOriginal->numOfSpecialties * sizeof(char*));
-	universityCopy->contestDay = (unsigned int*)malloc(universityOriginal->numOfSpecialties * sizeof(unsigned int));
-	universityCopy->contestNight = (unsigned int*)malloc(universityOriginal->numOfSpecialties * sizeof(unsigned int));
-	universityCopy->contestOnline = (unsigned int*)malloc(universityOriginal->numOfSpecialties * sizeof(unsigned int));
-	universityCopy->cost = (unsigned int*)malloc(universityOriginal->numOfSpecialties * sizeof(unsigned int));
-	for (i = 0; i < universityOriginal->numOfSpecialties; i++)
+	universityCopy.numOfSpecialties = 1;
+	universityCopy.specialties = new string[1];
+	universityCopy.contestDay = new unsigned int[1];
+	universityCopy.contestNight = new unsigned int[1];
+	universityCopy.contestOnline = new unsigned int[1];
+	universityCopy.cost = new float[1];
+	for (i = 0; i < universityOriginal.numOfSpecialties; i++)
 	{
-		cpy(&(universityCopy->specialties[i]), universityOriginal->specialties[i]);
-		universityCopy->contestDay[i] = universityOriginal->contestDay[i];
-		universityCopy->contestNight[i] = universityOriginal->contestNight[i];
-		universityCopy->contestOnline[i] = universityOriginal->contestOnline[i];
-		universityCopy->cost[i] = universityOriginal->cost[i];
-	}
-	cpy(&(universityCopy->adres.city), universityOriginal->adres.city);
-	cpy(&(universityCopy->adres.street), universityOriginal->adres.street);
-	cpy(&(universityCopy->adres.home), universityOriginal->adres.home);
-	cpy(&(universityCopy->name), universityOriginal->name);
-}*/
-
-/*void CopyUOnlyOneSpec(University* universityCopy, const University*  universityOriginal, char* spec)
-{
-	int i;
-	universityCopy->numOfSpecialties = 1;
-	universityCopy->specialties = (char**)malloc(sizeof(char*));
-	universityCopy->contestDay = (unsigned int*)malloc(sizeof(unsigned int));
-	universityCopy->contestNight = (unsigned int*)malloc(sizeof(unsigned int));
-	universityCopy->contestOnline = (unsigned int*)malloc(sizeof(unsigned int));
-	universityCopy->cost = (unsigned int*)malloc(sizeof(unsigned int));
-	for (i = 0; i < universityOriginal->numOfSpecialties; i++)
-	{
-		if (strstr(universityOriginal->specialties[i], spec)) {
-			cpy(&(universityCopy->specialties[0]), universityOriginal->specialties[i]);
-			universityCopy->contestDay[0] = universityOriginal->contestDay[i];
-			universityCopy->contestNight[0] = universityOriginal->contestNight[i];
-			universityCopy->contestOnline[0] = universityOriginal->contestOnline[i];
-			universityCopy->cost[0] = universityOriginal->cost[i];
+		if (universityOriginal.specialties[i].find(spec) != string::npos)
+		{
+			universityCopy.specialties[0] = universityOriginal.specialties[i];
+			universityCopy.contestDay[0] = universityOriginal.contestDay[i];
+			universityCopy.contestNight[0] = universityOriginal.contestNight[i];
+			universityCopy.contestOnline[0] = universityOriginal.contestOnline[i];
+			universityCopy.cost[0] = universityOriginal.cost[i];
 			break;
 		}
 	}
-	cpy(&(universityCopy->adres.city), universityOriginal->adres.city);
-	cpy(&(universityCopy->adres.street), universityOriginal->adres.street);
-	cpy(&(universityCopy->adres.home), universityOriginal->adres.home);
-	cpy(&(universityCopy->name), universityOriginal->name);
-}*/
+	universityCopy.adres.city = universityOriginal.adres.city;
+	universityCopy.adres.street = universityOriginal.adres.street;
+	universityCopy.adres.home = universityOriginal.adres.home;
+	universityCopy.name = universityOriginal.name;
+}
 
 void bariers(char* str, int* start, int* numOfSims)
 {
@@ -156,6 +150,7 @@ void read(string fileName, DBUniversities& DBunivers)
 	cout << n << endl;
 	DBunivers.count = n;
 
+	f.clear();
 	f.seekg(0);
 
 	DBunivers.universities = new University[n];
@@ -170,7 +165,7 @@ void read(string fileName, DBUniversities& DBunivers)
 		DBunivers.universities[i].cost = new float[DBunivers.universities[i].numOfSpecialties];
 	}
 
-
+	f.clear();
 	f.seekg(0);
 	for (int i = 0; i < n; i++)
 	{
@@ -185,9 +180,9 @@ void read(string fileName, DBUniversities& DBunivers)
 		getline(ss, DBunivers.universities[i].adres.street, ',');
 		getline(ss, DBunivers.universities[i].adres.home, ';');
 		getline(ss, token, ';');
+		stringstream ss2(token);
 		for (int j = 0; j < DBunivers.universities[i].numOfSpecialties; j++)
 		{
-			stringstream ss2(token);
 			getline(ss2, DBunivers.universities[i].specialties[j], ',');
 		}
 		getline(ss, token, ';');
@@ -214,7 +209,7 @@ void output(DBUniversities& univs)
 		cout << "Адрес: " << univs.universities[i].adres.city << ", "
 			<< univs.universities[i].adres.street << ", "
 			<< univs.universities[i].adres.home << endl;
-		cout << "Специальности:\n";
+		cout << "Специальности:" << endl;
 		for (int j = 0; j < univs.universities[i].numOfSpecialties; j++)
 		{
 			cout << univs.universities[i].specialties[j] << endl;

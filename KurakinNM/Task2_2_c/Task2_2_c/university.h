@@ -31,18 +31,17 @@ typedef struct {
 	int count;
 } DBUniversities;
 
-void freeDBU(DBUniversities* DB);
+void freeDBU(DBUniversities& DB);
 
-void read(string fileName, DBUniversities& universities); // DBUniversities*
+void read(string fileName, DBUniversities& universities);
 void output(DBUniversities& univs); // DBUniversities*
 
-void allAboutUniver(DBUniversities* univs, char* name); // DBUniversities*
-void allAboutSpec(DBUniversities* univs, char* special); // DBUniversities*
-void minContestSpec(DBUniversities* universResult, DBUniversities* univers, char* special); // DBUniversities* //возвращать найденные
-void findSpec(DBUniversities* univs); // DBUniversities* // поиск минимального конкурса по какой-либо специальности любого вуза
+void allAboutUniver(DBUniversities& univs, string name);
+void allAboutSpec(DBUniversities& univs, string special);
+void minContestSpec(DBUniversities& universResult, DBUniversities& univers, string special); // DBUniversities* //возвращать найденные
+void findSpec(DBUniversities& univs); // DBUniversities* // поиск минимального конкурса по какой-либо специальности любого вуза
 
-void cpy(char** output, const char* input);
-void CopyU(University* universityCopy, const University* universityOriginal);
-void CopyUOnlyOneSpec(University* universityCopy, const University* universityOriginal, char* spec);
+void CopyU(University& universityCopy, const University& universityOriginal);
+void CopyUOnlyOneSpec(University& universityCopy, const University& universityOriginal, string spec);
 
 #endif

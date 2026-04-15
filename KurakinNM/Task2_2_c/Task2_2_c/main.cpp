@@ -21,32 +21,32 @@ int main()
 		case 0:
 			work = 0;
 			break;
-		/*case 1:
+		case 1:
 			while (getchar() != '\n');
 			cout << "¬ведите название вуза: ";
 			cin >> str;
 			cin.ignore();
-			allAboutUniver(&DBUnivers, str);
-			break;*/
-		/*case 2:
+			allAboutUniver(DBUnivers, str);
+			break;
+		case 2:
 			while (getchar() != '\n');
 			cout << "¬ведите название специальности: ";
-			fgets(str, 255, stdin);
-			str[strlen(str) - 1] = '\0';
-			allAboutSpec(&DBUnivers, str);
+			cin >> str;
+			cin.ignore();
+			allAboutSpec(DBUnivers, str);
 			break;
 		case 3:
 			while (getchar() != '\n');
 			cout << "¬ведите название специальности: ";
-			fgets(str, 255, stdin);
-			str[strlen(str) - 1] = '\0';
-			minContestSpec(&FindedDBUnivers, &DBUnivers, str);
-			output(&FindedDBUnivers);
-			freeDBU(&FindedDBUnivers);
+			cin >> str;
+			cin.ignore();
+			minContestSpec(FindedDBUnivers, DBUnivers, str);
+			output(FindedDBUnivers);
+			freeDBU(FindedDBUnivers);
 			break;
 		case 4:
-			findSpec(&DBUnivers);
-			break;*/
+			findSpec(DBUnivers);
+			break;
 		case 5:
 			output(DBUnivers);
 			break;
@@ -57,7 +57,7 @@ int main()
 		}
 	}
 
-	freeDBU(&DBUnivers);
+	freeDBU(DBUnivers);
 
 	return 0;
 }

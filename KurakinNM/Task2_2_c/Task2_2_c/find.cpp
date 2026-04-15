@@ -1,47 +1,53 @@
 #include "university.h"
 
-void allAboutUniver(DBUniversities* univers, char* name)
+void allAboutUniver(DBUniversities& univers, string name)
 {
 	int i, j;
-	for (i = 0; i < univers->count; i++)
+	for (i = 0; i < univers.count; i++)
 	{
-		if (strstr(univers->universities[i].name, name))
+		if (univers.universities[i].name.find(name) != string::npos)
 		{
-			printf("Название вуза: %s\n", univers->universities[i].name);
-			printf("Адрес: %s, %s, %s\n", univers->universities[i].adres.city, univers->universities[i].adres.street, univers->universities[i].adres.home);
-			printf("Специальности:\n");
-			for (j = 0; j < univers->universities[i].numOfSpecialties; j++)
+			cout << "Название вуза: " << univers.universities[i].name << endl;
+			cout << "Адрес: " << univers.universities[i].adres.city << ", " << 
+				univers.universities[i].adres.street << ", " <<
+				univers.universities[i].adres.home << endl;
+			cout << "Специальности:" << endl;
+			for (j = 0; j < univers.universities[i].numOfSpecialties; j++)
 			{
-				printf("%s\n", univers->universities[i].specialties[j]);
-				printf("Конкурс прошлого года (Дневной/Вечерний/Заочный): %d/%d/%d\n",
-					univers->universities[i].contestDay[j], univers->universities[i].contestNight[j], univers->universities[i].contestOnline[j]);
-				printf("Оплата при договорном обучении: %.2fр.\n", univers->universities[i].cost[j]);
+				cout << univers.universities[i].specialties[j] << endl;
+				cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный):" <<
+					univers.universities[i].contestDay[j] << "/" << 
+					univers.universities[i].contestNight[j] << "/" <<
+					univers.universities[i].contestOnline[j] << endl;
+				cout << "Оплата при договорном обучении: " << univers.universities[i].cost[j] << "р." << endl;
 			}
-			printf("\n");
+			cout << endl;
 			break;
 		};
 	}
-	if (i == univers->count)
+	if (i == univers.count)
 	{
-		printf("Вуз не найден.\n");
+		cout << "Вуз не найден." << endl;
 	}
 }
 
-void allAboutSpec(DBUniversities* univs, char* special)
+void allAboutSpec(DBUniversities& univs, string special)
 {
 	int i, j, n = 0;
-	for (i = 0; i < univs->count; i++)
+	for (i = 0; i < univs.count; i++)
 	{
-		for (j = 0; j < univs->universities[i].numOfSpecialties; j++)
+		for (j = 0; j < univs.universities[i].numOfSpecialties; j++)
 		{
-			if (strstr(univs->universities[i].specialties[j], special))
+			if (univs.universities[i].specialties[j].find(special) != string::npos)
 			{
-				printf("Специальность: %s\n", univs->universities[i].specialties[j]);
-				printf("Вуз: %s\n", univs->universities[i].name);
-				printf("Конкурс прошлого года (Дневной/Вечерний/Заочный): %d/%d/%d\n",
-					univs->universities[i].contestDay[j], univs->universities[i].contestNight[j], univs->universities[i].contestOnline[j]);
-				printf("Оплата при договорном обучении: %.2fр.\n", univs->universities[i].cost[j]);
-				printf("\n");
+				cout << "Специальность: " << univs.universities[i].specialties[j] << endl;
+				cout << "Вуз: " << univs.universities[i].name << endl;
+				cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный):" <<
+					univs.universities[i].contestDay[j] << "/" <<
+					univs.universities[i].contestNight[j] << "/" <<
+					univs.universities[i].contestOnline[j] << endl;
+				cout << "Оплата при договорном обучении: " << univs.universities[i].cost[j] << "р." << endl;
+				cout << endl;
 
 				n++;
 				break;
@@ -50,27 +56,27 @@ void allAboutSpec(DBUniversities* univs, char* special)
 	}
 	if (n == 0)
 	{
-		printf("Специальность не найдена.\n");
+		cout << "Специальность не найдена." << endl;
 	}
 }
 
-void minContestSpec(DBUniversities* universResult, DBUniversities* univers, char* special)
+void minContestSpec(DBUniversities& universResult, DBUniversities& univers, string special)
 {
 	int i, j, n = 0;
 	int DU = -1, DS = -1;
 	int NU = -1, NS = -1;
 	int OU = -1, OS = -1;
-	for (i = 0; i < univers->count; i++)
+	for (i = 0; i < univers.count; i++)
 	{
-		for (j = 0; j < univers->universities[i].numOfSpecialties; j++)
+		for (j = 0; j < univers.universities[i].numOfSpecialties; j++)
 		{
-			if (strstr(univers->universities[i].specialties[j], special))
+			if (univers.universities[i].specialties[j].find(special) != string::npos)
 			{
 				if (DU != -1)
 				{
-					if (univers->universities[i].contestDay[j] < univers->universities[DU].contestDay[DS]) { DU = i; DS = j; }
-					if (univers->universities[i].contestNight[j] < univers->universities[NU].contestNight[NS]) { NU = i; NS = j; }
-					if (univers->universities[i].contestOnline[j] < univers->universities[OU].contestOnline[OS]) { OU = i; OS = j; }
+					if (univers.universities[i].contestDay[j] < univers.universities[DU].contestDay[DS]) { DU = i; DS = j; }
+					if (univers.universities[i].contestNight[j] < univers.universities[NU].contestNight[NS]) { NU = i; NS = j; }
+					if (univers.universities[i].contestOnline[j] < univers.universities[OU].contestOnline[OS]) { OU = i; OS = j; }
 				}
 				else
 				{
@@ -82,70 +88,53 @@ void minContestSpec(DBUniversities* universResult, DBUniversities* univers, char
 			}
 		}
 	}
-	if (DU == -1) printf("Специальность не найдена.\n");
+	if (DU == -1) cout << "Специальность не найдена." << endl;
 	else {
 		if (DU != NU && NU != OU && DU != OU) {
-			universResult->count = 3;
-			universResult->universities = (University*)malloc(3 * sizeof(University));
-			CopyUOnlyOneSpec(&(universResult->universities[0]), &(univers->universities[DU]), special);
-			CopyUOnlyOneSpec(&(universResult->universities[1]), &(univers->universities[NU]), special);
-			CopyUOnlyOneSpec(&(universResult->universities[2]), &(univers->universities[OU]), special);
+			universResult.count = 3;
+			universResult.universities = new University[3];
+			CopyUOnlyOneSpec(universResult.universities[0], univers.universities[DU], special);
+			CopyUOnlyOneSpec(universResult.universities[1], univers.universities[NU], special);
+			CopyUOnlyOneSpec(universResult.universities[2], univers.universities[OU], special);
 		}
 		else if (DU == NU && NU == OU) {
-			universResult->count = 1;
-			universResult->universities = (University*)malloc(1 * sizeof(University));
-			CopyUOnlyOneSpec(&(universResult->universities[0]), &(univers->universities[DU]), special);
+			universResult.count = 1;
+			universResult.universities = new University[1];
+			CopyUOnlyOneSpec(universResult.universities[0], univers.universities[DU], special);
 		}
 		else {
-			universResult->count = 2;
-			universResult->universities = (University*)malloc(2 * sizeof(University));
-			CopyUOnlyOneSpec(&(universResult->universities[0]), &(univers->universities[DU]), special);
-			if (DU != NU) CopyUOnlyOneSpec(&(universResult->universities[1]), &(univers->universities[NU]), special);
-			else CopyUOnlyOneSpec(&(universResult->universities[1]), &(univers->universities[OU]), special);
+			universResult.count = 2;
+			universResult.universities = new University[2];
+			CopyUOnlyOneSpec(universResult.universities[0], univers.universities[DU], special);
+			if (DU != NU) CopyUOnlyOneSpec(universResult.universities[1], univers.universities[NU], special);
+			else CopyUOnlyOneSpec(universResult.universities[1], univers.universities[OU], special);
 		};
 	}
-	/* {
-		printf("Дневная форма:\n");
-		printf("Специальность: %s\n", univers[DU].specialties[DS]);
-		printf("Вуз: %s\n", univers[DU].name);
-		printf("Конкурс прошлого года: %d\n", univers[DU].contestDay[DS]);
-		printf("\n");
-		printf("Ночная форма:\n");
-		printf("Специальность: %s\n", univers[NU].specialties[NS]);
-		printf("Вуз: %s\n", univers[NU].name);
-		printf("Конкурс прошлого года: %d\n", univers[NU].contestNight[NS]);
-		printf("\n");
-		printf("Заочная форма:\n");
-		printf("Специальность: %s\n", univers[OU].specialties[OS]);
-		printf("Вуз: %s\n", univers[OU].name);
-		printf("Конкурс прошлого года: %d\n", univers[OU].contestOnline[OS]);
-		printf("\n");
-	}
-	else printf("Специальность не найдена.\n");*/
 }
 
-void findSpec(DBUniversities* univs)
+void findSpec(DBUniversities& univs)
 {
 	int i, j;
 	int DS = -1;
 	int NS = -1;
 	int OS = -1;
-	for (i = 0; i < univs->count; i++)
+	for (i = 0; i < univs.count; i++)
 	{
 		DS = -1;
 		NS = -1;
 		OS = -1;
-		printf("Название вуза: %s\n", univs->universities[i].name);
-		printf("Адрес: %s, %s, %s\n", univs->universities[i].adres.city,
-			univs->universities[i].adres.street, univs->universities[i].adres.home);
+		cout << "Название вуза: " << univs.universities[i].name << endl;
+		cout << "Адрес: " << univs.universities[i].adres.city << ", " <<
+			univs.universities[i].adres.street << ", " <<
+			univs.universities[i].adres.home << endl;
 
-		for (j = 0; j < univs->universities[i].numOfSpecialties; j++)
+		for (j = 0; j < univs.universities[i].numOfSpecialties; j++)
 		{
 			if (DS != -1)
 			{
-				if (univs->universities[i].contestDay[j] < univs->universities[i].contestDay[DS]) DS = j;
-				if (univs->universities[i].contestNight[j] < univs->universities[i].contestNight[NS]) NS = j;
-				if (univs->universities[i].contestOnline[j] < univs->universities[i].contestOnline[OS]) OS = j;
+				if (univs.universities[i].contestDay[j] < univs.universities[i].contestDay[DS]) DS = j;
+				if (univs.universities[i].contestNight[j] < univs.universities[i].contestNight[NS]) NS = j;
+				if (univs.universities[i].contestOnline[j] < univs.universities[i].contestOnline[OS]) OS = j;
 			}
 			else
 			{
@@ -154,12 +143,13 @@ void findSpec(DBUniversities* univs)
 				OS = j;
 			}
 		}
-		printf("Минимальный дневной конкурс: %d\nСпециальность: %s\n",
-			univs->universities[i].contestDay[DS], univs->universities[i].specialties[DS]);
-		printf("Минимальный вечерний конкурс: %d\nСпециальность: %s\n",
-			univs->universities[i].contestNight[NS], univs->universities[i].specialties[NS]);
-		printf("Минимальный заочный конкурс: %d\nСпециальность: %s\n\n",
-			univs->universities[i].contestOnline[OS], univs->universities[i].specialties[OS]);
+		cout << "Минимальный дневной конкурс: " << univs.universities[i].contestDay[DS] << endl;
+		cout << "Специальность: " << univs.universities[i].specialties[DS] << endl;
+		cout << "Минимальный вечерний конкурс: " << univs.universities[i].contestNight[NS] << endl;
+		cout << "Специальность: " << univs.universities[i].specialties[NS] << endl;
+		cout << "Минимальный заочный конкурс: " << univs.universities[i].contestOnline[OS] << endl;
+		cout << "Специальность: " << univs.universities[i].specialties[OS] << endl;
+		cout << endl;
 	}
 }
 
