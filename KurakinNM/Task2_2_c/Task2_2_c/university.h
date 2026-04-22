@@ -9,13 +9,27 @@
 
 using namespace std;
 
-typedef struct {
+struct Adres {
 	string city;
 	string street;
 	string home;
-} Adres;
 
-typedef struct {
+	Adres();
+	Adres(const string& line);
+	Adres(const Adres& adres);
+
+	void print();
+};
+
+struct Special {
+	string name;
+	unsigned int contestDay;
+	unsigned int contestNight;
+	unsigned int contestOnline;
+	float cost;
+};
+
+struct University {
 	string name;
 	Adres adres;
 	unsigned int numOfSpecialties;
@@ -23,25 +37,36 @@ typedef struct {
 	unsigned int* contestDay;
 	unsigned int* contestNight;
 	unsigned int* contestOnline;
-	float* cost; // float
-} University;
+	float* cost;
 
-typedef struct {
+	University();
+	University(const string& line);
+	//University(const University& universityOriginal);
+	//University(const University& universityOriginal, const string& spec);
+	void print();
+
+	void free();
+};
+
+struct DBUniversities {
 	University* universities;
 	int count;
-} DBUniversities;
 
-void freeDBU(DBUniversities& DB);
+	DBUniversities(const string& fileName);
+	void print();
+
+	void free();
+};
 
 void read(string fileName, DBUniversities& universities);
-void output(DBUniversities& univs); // DBUniversities*
+//void output(DBUniversities& univs);
 
-void allAboutUniver(DBUniversities& univs, string name);
-void allAboutSpec(DBUniversities& univs, string special);
-void minContestSpec(DBUniversities& universResult, DBUniversities& univers, string special); // DBUniversities* //возвращать найденные
-void findSpec(DBUniversities& univs); // DBUniversities* // поиск минимального конкурса по какой-либо специальности любого вуза
+void allAboutUniver(const DBUniversities& univs, const string& name);
+void allAboutSpec(const DBUniversities& univs, const string& special);
+void minContestSpec(DBUniversities& universResult, const DBUniversities& univers, const string& special);
+void findSpec(const DBUniversities& univs);
 
 void CopyU(University& universityCopy, const University& universityOriginal);
-void CopyUOnlyOneSpec(University& universityCopy, const University& universityOriginal, string spec);
+void CopyUOnlyOneSpec(University& universityCopy, const University& universityOriginal, const string& spec);
 
 #endif

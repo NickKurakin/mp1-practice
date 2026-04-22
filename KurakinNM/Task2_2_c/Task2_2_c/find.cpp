@@ -1,6 +1,6 @@
 #include "university.h"
 
-void allAboutUniver(DBUniversities& univers, string name)
+/*void allAboutUniver(DBUniversities& univers, string name)
 {
 	int i, j;
 	for (i = 0; i < univers.count; i++)
@@ -151,7 +151,7 @@ void findSpec(DBUniversities& univs)
 		cout << "Специальность: " << univs.universities[i].specialties[OS] << endl;
 		cout << endl;
 	}
-}
+}*/
 
 /*void cpy(char* input, char** output, int len)
 {

@@ -2,19 +2,50 @@
 
 #include "university.h"
 
-void freeDBU(DBUniversities& DB)
+Adres::Adres()
 {
-	for (int i = 0; i < DB.count; i++) {
-		delete[] DB.universities[i].specialties;
-		delete[] DB.universities[i].contestDay;
-		delete[] DB.universities[i].contestNight;
-		delete[] DB.universities[i].contestOnline;
-		delete[] DB.universities[i].cost;
-	}
-	delete[] DB.universities;
+	this->city = "";
+	this->street= "";
+	this->home = "";
 }
 
-void CopyU(University& universityCopy, const University& universityOriginal)
+Adres::Adres(const Adres& adres)
+{
+	this->city = adres.city;
+	this->street = adres.street;
+	this->home = adres.home;
+}
+
+University::University()
+{
+	this->name = "";
+	this->adres = Adres();
+	this->numOfSpecialties = 0;
+	this->specialties = nullptr;
+	this->contestDay = nullptr;
+	this->contestNight = nullptr;
+	this->contestOnline = nullptr;
+	this->cost = nullptr;
+}
+
+void University::free()
+{
+	delete[] this->specialties;
+	delete[] this->contestDay;
+	delete[] this->contestNight;
+	delete[] this->contestOnline;
+	delete[] this->cost;
+}
+
+void DBUniversities::free()
+{
+	for (int i = 0; i < this->count; i++) {
+		this->universities[i].free();
+	}
+	delete[] this->universities;
+}
+
+/*void CopyU(University& universityCopy, const University& universityOriginal)
 {
 	int i;
 	universityCopy.numOfSpecialties = universityOriginal.numOfSpecialties;
@@ -62,35 +93,7 @@ void CopyUOnlyOneSpec(University& universityCopy, const University& universityOr
 	universityCopy.adres.street = universityOriginal.adres.street;
 	universityCopy.adres.home = universityOriginal.adres.home;
 	universityCopy.name = universityOriginal.name;
-}
-
-void bariers(char* str, int* start, int* numOfSims)
-{
-	while (str[*start] == ' ') (*start)++;
-	while (str[*numOfSims - 1] == ' ') (*numOfSims)--;
-	*numOfSims -= *start;
-}
-
-void readWord(char* input, char** output)
-{
-	int start = 0, numOfSims = strlen(input);
-	bariers(input, &start, &numOfSims);
-	(*output) = (char*)malloc(numOfSims + 1);
-	strncpy(*output, input + start, numOfSims);
-	(*output)[numOfSims] = '\0';
-}
-void readNumLine(char** input, unsigned int* outNums, int len)
-{
-	int i;
-	char* num;
-	for (i = 0; i < len; i++)
-	{
-		readWord(*input, &num);
-		outNums[i] = atoi(num);
-		*input = strtok(NULL, ",;");
-		free(num);
-	}
-}
+}*/
 
 void readNumLine(unsigned int*& mass, const string& str, int n)
 {
@@ -117,19 +120,6 @@ void readNumLine(float*& mass, const string& str, int n)
 	}
 }
 
-void readFloatLine(char** input, float* outNums, int len)
-{
-	int i;
-	char* num;
-	for (i = 0; i < len; i++)
-	{
-		readWord(*input, &num);
-		outNums[i] = atof(num);
-		*input = strtok(NULL, ",;");
-		free(num);
-	}
-}
-
 void strReplaceAll(string& str, const string before, const string after)
 {
 	size_t pos = str.find(before);
@@ -140,7 +130,50 @@ void strReplaceAll(string& str, const string before, const string after)
 	}
 }
 
-void read(string fileName, DBUniversities& DBunivers)
+Adres::Adres(const string& line)
+{
+	stringstream ss(line);
+	getline(ss, this->city, ',');
+	getline(ss, this->street, ',');
+	getline(ss, this->home, ',');
+}
+
+University::University(const string& line)
+{
+	this->numOfSpecialties = (count(line.begin(), line.end(), ',') - 2) / 5 + 1;
+	this->specialties = new string[this->numOfSpecialties];
+	this->contestDay = new unsigned int[this->numOfSpecialties];
+	this->contestNight = new unsigned int[this->numOfSpecialties];
+	this->contestOnline = new unsigned int[this->numOfSpecialties];
+	this->cost = new float[this->numOfSpecialties];
+
+	string token;
+
+	stringstream ss(line);
+	getline(ss, this->name, ';');
+	getline(ss, token, ';');
+	this->adres = Adres(token);
+	getline(ss, token, ';');
+	stringstream ss2(token);
+	for (int j = 0; j < this->numOfSpecialties; j++)
+	{
+		getline(ss2, this->specialties[j], ',');
+	}
+	getline(ss, token, ';');
+	strReplaceAll(token, ",", " ");
+	readNumLine(this->contestDay, token, this->numOfSpecialties);
+	getline(ss, token, ';');
+	strReplaceAll(token, ",", " ");
+	readNumLine(this->contestNight, token, this->numOfSpecialties);
+	getline(ss, token, ';');
+	strReplaceAll(token, ",", " ");
+	readNumLine(this->contestOnline, token, this->numOfSpecialties);
+	getline(ss, token, ';');
+	strReplaceAll(token, ",", " ");
+	readNumLine(this->cost, token, this->numOfSpecialties);
+};
+
+DBUniversities::DBUniversities(const string& fileName)
 {
 	ifstream f(fileName);
 	int n = 0;
@@ -148,25 +181,12 @@ void read(string fileName, DBUniversities& DBunivers)
 	string buffer, token;
 	while (getline(f, buffer)) n++;
 	cout << n << endl;
-	DBunivers.count = n;
+	this->count = n;
 
 	f.clear();
 	f.seekg(0);
 
-	DBunivers.universities = new University[n];
-	for (int i = 0; i < n; i++)
-	{
-		getline(f, buffer);
-		DBunivers.universities[i].numOfSpecialties = (count(buffer.begin(), buffer.end(), ',') - 2) / 5 + 1;
-		DBunivers.universities[i].specialties = new string[DBunivers.universities[i].numOfSpecialties];
-		DBunivers.universities[i].contestDay = new unsigned int[DBunivers.universities[i].numOfSpecialties];
-		DBunivers.universities[i].contestNight = new unsigned int[DBunivers.universities[i].numOfSpecialties];
-		DBunivers.universities[i].contestOnline = new unsigned int[DBunivers.universities[i].numOfSpecialties];
-		DBunivers.universities[i].cost = new float[DBunivers.universities[i].numOfSpecialties];
-	}
-
-	f.clear();
-	f.seekg(0);
+	this->universities = new University[n];
 	for (int i = 0; i < n; i++)
 	{
 		getline(f, buffer);
@@ -174,34 +194,44 @@ void read(string fileName, DBUniversities& DBunivers)
 		strReplaceAll(buffer, "; ", ";");
 		strReplaceAll(buffer, " ,", ",");
 		strReplaceAll(buffer, ", ", ",");
-		stringstream ss(buffer);
-		getline(ss, DBunivers.universities[i].name, ';');
-		getline(ss, DBunivers.universities[i].adres.city, ',');
-		getline(ss, DBunivers.universities[i].adres.street, ',');
-		getline(ss, DBunivers.universities[i].adres.home, ';');
-		getline(ss, token, ';');
-		stringstream ss2(token);
-		for (int j = 0; j < DBunivers.universities[i].numOfSpecialties; j++)
-		{
-			getline(ss2, DBunivers.universities[i].specialties[j], ',');
-		}
-		getline(ss, token, ';');
-		strReplaceAll(token, ",", " ");
-		readNumLine(DBunivers.universities[i].contestDay, token, DBunivers.universities[i].numOfSpecialties);
-		getline(ss, token, ';');
-		strReplaceAll(token, ",", " ");
-		readNumLine(DBunivers.universities[i].contestNight, token, DBunivers.universities[i].numOfSpecialties);
-		getline(ss, token, ';');
-		strReplaceAll(token, ",", " ");
-		readNumLine(DBunivers.universities[i].contestOnline, token, DBunivers.universities[i].numOfSpecialties);
-		getline(ss, token, ';');
-		strReplaceAll(token, ",", " ");
-		readNumLine(DBunivers.universities[i].cost, token, DBunivers.universities[i].numOfSpecialties);
+		this->universities[i] = University(buffer);
 	}
 	f.close();
 }
 
-void output(DBUniversities& univs)
+void Adres::print()
+{
+	cout << "Адрес: " << this->city << ", "
+		<< this->street << ", "
+		<< this->home << endl;
+}
+
+void University::print()
+{
+		cout << "Название вуза: " << this->name << endl;
+		this->adres.print();
+		cout << "Специальности:" << endl;
+		for (int j = 0; j < this->numOfSpecialties; j++)
+		{
+			cout << this->specialties[j] << endl;
+			cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный): " <<
+				this->contestDay[j] << "/" <<
+				this->contestNight[j] << "/" <<
+				this->contestOnline[j] << endl;
+			cout << "Оплата при договорном обучении: " << this->cost[j] << endl;
+		}
+		cout << endl;
+}
+
+void DBUniversities::print()
+{
+	for (int i = 0; i < this->count; i++)
+	{
+		this->universities[i].print();
+	}
+}
+
+/*void output(DBUniversities& univs)
 {
 	for (int i = 0; i < univs.count; i++)
 	{
@@ -221,4 +251,4 @@ void output(DBUniversities& univs)
 		}
 		cout << endl;
 	}
-}
+}*/

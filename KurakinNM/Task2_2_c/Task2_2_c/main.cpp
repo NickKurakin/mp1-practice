@@ -4,24 +4,31 @@
 
 int main()
 {
-	DBUniversities DBUnivers, FindedDBUnivers;
+	//DBUniversities DBUnivers, FindedDBUnivers;
 	int i, j, work = 1,option;
 	string str;
 	system("chcp 1251");
 	system("cls");
-	read("universities.txt", DBUnivers);
+	DBUniversities DBUnivers("universities.txt");
+	//read("universities.txt", DBUnivers);
 
 	while(work)
 	{
-		cout << "===========================================\n";
-		cout << "Выберите режим поиска (1 - всё о данном вузе, 2 - всё о данной специальности, 3 - поиск минимального конкурса по данной специальности, 4 - по специальностям каждого вуза, 5 - вывести все вузы, 0 - выход):";
+		cout << "===========================================" << endl;
+		cout << "Выберите режим поиска " << 
+			"(1 - всё о данном вузе, " <<
+			"2 - всё о данной специальности, " << 
+			"3 - поиск минимального конкурса по данной специальности, " <<
+			"4 - по специальностям каждого вуза, " <<
+			"5 - вывести все вузы, " <<
+			"0 - выход):";
 		cin >> option;
 		switch (option)
 		{
 		case 0:
 			work = 0;
 			break;
-		case 1:
+		/*case 1:
 			while (getchar() != '\n');
 			cout << "Введите название вуза: ";
 			cin >> str;
@@ -41,14 +48,14 @@ int main()
 			cin >> str;
 			cin.ignore();
 			minContestSpec(FindedDBUnivers, DBUnivers, str);
-			output(FindedDBUnivers);
-			freeDBU(FindedDBUnivers);
+			FindedDBUnivers.print();
+			FindedDBUnivers.~DBUniversities();
 			break;
 		case 4:
 			findSpec(DBUnivers);
-			break;
+			break;*/
 		case 5:
-			output(DBUnivers);
+			DBUnivers.print();
 			break;
 		default:
 			while (getchar() != '\n');
@@ -57,7 +64,7 @@ int main()
 		}
 	}
 
-	freeDBU(DBUnivers);
+	DBUnivers.free();
 
 	return 0;
 }
