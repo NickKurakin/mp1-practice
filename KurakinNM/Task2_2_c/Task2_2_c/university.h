@@ -27,17 +27,18 @@ struct Special {
 	unsigned int contestNight;
 	unsigned int contestOnline;
 	float cost;
+
+	Special();
+	Special(const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost);
+
+	void print();
 };
 
 struct University {
 	string name;
 	Adres adres;
 	unsigned int numOfSpecialties;
-	string* specialties;
-	unsigned int* contestDay;
-	unsigned int* contestNight;
-	unsigned int* contestOnline;
-	float* cost;
+	Special* specials;
 
 	University();
 	University(const string& line);

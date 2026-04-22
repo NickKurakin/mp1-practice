@@ -9,6 +9,15 @@ Adres::Adres()
 	this->home = "";
 }
 
+Special::Special()
+{
+	this->name = "";
+	this->contestDay = 0;
+	this->contestNight = 0;
+	this->contestOnline = 0;
+	this->cost = 0;
+}
+
 Adres::Adres(const Adres& adres)
 {
 	this->city = adres.city;
@@ -21,20 +30,12 @@ University::University()
 	this->name = "";
 	this->adres = Adres();
 	this->numOfSpecialties = 0;
-	this->specialties = nullptr;
-	this->contestDay = nullptr;
-	this->contestNight = nullptr;
-	this->contestOnline = nullptr;
-	this->cost = nullptr;
+	this->specials = nullptr;
 }
 
 void University::free()
 {
-	delete[] this->specialties;
-	delete[] this->contestDay;
-	delete[] this->contestNight;
-	delete[] this->contestOnline;
-	delete[] this->cost;
+	delete[] this->specials;
 }
 
 void DBUniversities::free()
@@ -141,13 +142,14 @@ Adres::Adres(const string& line)
 University::University(const string& line)
 {
 	this->numOfSpecialties = (count(line.begin(), line.end(), ',') - 2) / 5 + 1;
-	this->specialties = new string[this->numOfSpecialties];
-	this->contestDay = new unsigned int[this->numOfSpecialties];
-	this->contestNight = new unsigned int[this->numOfSpecialties];
-	this->contestOnline = new unsigned int[this->numOfSpecialties];
-	this->cost = new float[this->numOfSpecialties];
+	this->specials = new Special[this->numOfSpecialties];
 
 	string token;
+	string* specialties = new string[this->numOfSpecialties];
+	unsigned int* contestDay = new unsigned int[this->numOfSpecialties];
+	unsigned int* contestNight = new unsigned int[this->numOfSpecialties];
+	unsigned int* contestOnline = new unsigned int[this->numOfSpecialties];
+	float* cost = new float[this->numOfSpecialties];
 
 	stringstream ss(line);
 	getline(ss, this->name, ';');
@@ -158,20 +160,26 @@ University::University(const string& line)
 	stringstream ss2(token);
 	for (int j = 0; j < this->numOfSpecialties; j++)
 	{
-		getline(ss2, this->specialties[j], ',');
+		getline(ss2, specialties[j], ',');
 	}
 	getline(ss, token, ';');
 	strReplaceAll(token, ",", " ");
-	readNumLine(this->contestDay, token, this->numOfSpecialties);
+	readNumLine(contestDay, token, this->numOfSpecialties);
 	getline(ss, token, ';');
 	strReplaceAll(token, ",", " ");
-	readNumLine(this->contestNight, token, this->numOfSpecialties);
+	readNumLine(contestNight, token, this->numOfSpecialties);
 	getline(ss, token, ';');
 	strReplaceAll(token, ",", " ");
-	readNumLine(this->contestOnline, token, this->numOfSpecialties);
+	readNumLine(contestOnline, token, this->numOfSpecialties);
 	getline(ss, token, ';');
 	strReplaceAll(token, ",", " ");
-	readNumLine(this->cost, token, this->numOfSpecialties);
+	readNumLine(cost, token, this->numOfSpecialties);
+
+	delete[] specialties;
+	delete[] contestDay;
+	delete[] contestNight;
+	delete[] contestOnline;
+	delete[] cost;
 };
 
 DBUniversities::DBUniversities(const string& fileName)
