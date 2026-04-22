@@ -153,6 +153,7 @@ University::University(const string& line)
 	getline(ss, this->name, ';');
 	getline(ss, token, ';');
 	this->adres = Adres(token);
+
 	getline(ss, token, ';');
 	stringstream ss2(token);
 	for (int j = 0; j < this->numOfSpecialties; j++)
