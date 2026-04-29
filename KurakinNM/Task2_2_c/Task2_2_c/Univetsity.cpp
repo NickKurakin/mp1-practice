@@ -67,7 +67,7 @@ University::University(const string& line)
 
 	for (int i = 0; i < this->numOfSpecialties; i++)
 	{
-		this->specials[i] = Special(specialties[i], contestDay[i], contestNight[i], contestOnline[i], cost[i]);
+		this->specials[i] = Special(this->name, specialties[i], contestDay[i], contestNight[i], contestOnline[i], cost[i]);
 	}
 
 	delete[] specialties;

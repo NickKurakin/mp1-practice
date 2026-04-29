@@ -26,6 +26,7 @@ public:
 
 struct Special {
 private:
+	string universityName;
 	string name;
 	unsigned int contestDay;
 	unsigned int contestNight;
@@ -35,9 +36,10 @@ private:
 public:
 	Special();
 	Special(const Special& special);
-	Special(const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost);
+	Special(const string& universityName, const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost);
 
 	void print();
+	void fullInfoPrint();
 };
 
 struct University {
@@ -79,7 +81,6 @@ public:
 
 };
 
-void allAboutUniver(const DBUniversities& univs, const string& name);
 void allAboutSpec(const DBUniversities& univs, const string& special);
 void minContestSpec(DBUniversities& universResult, const DBUniversities& univers, const string& special);
 void findSpec(const DBUniversities& univs);
