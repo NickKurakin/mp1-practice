@@ -50,12 +50,13 @@ private:
 public:
 	University();
 	University(const string& line);
+	University(const University& universityOriginal);
+	University(const University& universityOriginal, const Special& spec);
 
-	//University(const University& universityOriginal);
-	//University(const University& universityOriginal, const string& spec);
+	~University();
+
+	void copy(const University& universityOriginal);
 	void print();
-
-	void free();
 };
 
 struct DBUniversities {
@@ -64,19 +65,20 @@ private:
 	int count;
 
 public:
+	DBUniversities();
+	DBUniversities(const DBUniversities& DB);
 	DBUniversities(const string& fileName);
+
+	~DBUniversities();
+
 	void print();
 
-	void free();
 };
 
 void allAboutUniver(const DBUniversities& univs, const string& name);
 void allAboutSpec(const DBUniversities& univs, const string& special);
 void minContestSpec(DBUniversities& universResult, const DBUniversities& univers, const string& special);
 void findSpec(const DBUniversities& univs);
-
-void CopyU(University& universityCopy, const University& universityOriginal);
-void CopyUOnlyOneSpec(University& universityCopy, const University& universityOriginal, const string& spec);
 
 void readNumLine(unsigned int*& mass, const string& str, int n);
 void readNumLine(int*& mass, const string& str, int n);

@@ -10,7 +10,6 @@ int main()
 	system("chcp 1251");
 	system("cls");
 	DBUniversities DBUnivers("universities.txt");
-	//read("universities.txt", DBUnivers);
 
 	while(work)
 	{
@@ -63,8 +62,6 @@ int main()
 			break;
 		}
 	}
-
-	DBUnivers.free();
 
 	return 0;
 }

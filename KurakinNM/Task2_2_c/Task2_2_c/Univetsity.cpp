@@ -8,6 +8,27 @@ University::University()
 	this->specials = nullptr;
 }
 
+University::University(const University& universityOriginal)
+{
+	this->name = universityOriginal.name;
+	this->adres = Adres(universityOriginal.adres);
+	this->numOfSpecialties = universityOriginal.numOfSpecialties;
+	this->specials = new Special[this->numOfSpecialties];
+	for (int i = 0; i < this->numOfSpecialties; i++)
+	{
+		this->specials[i] = Special(universityOriginal.specials[i]);
+	}
+}
+
+University::University(const University& universityOriginal, const Special& spec)
+{
+	this->name = universityOriginal.name;
+	this->adres = Adres(universityOriginal.adres);
+	this->numOfSpecialties = 1;
+	this->specials = new Special[1];
+	this->specials[0] = Special(spec);
+}
+
 University::University(const string& line)
 {
 	this->numOfSpecialties = (count(line.begin(), line.end(), ',') - 2) / 5 + 1;
@@ -56,7 +77,7 @@ University::University(const string& line)
 	delete[] cost;
 };
 
-void University::free()
+University::~University()
 {
 	delete[] this->specials;
 }
@@ -71,4 +92,18 @@ void University::print()
 		this->specials[i].print();
 	}
 	cout << endl;
+}
+
+void University::copy(const University& universityOriginal)
+{
+	if (this->numOfSpecialties > 0) delete[] this->specials;
+
+	this->name = universityOriginal.name;
+	this->adres = Adres(universityOriginal.adres);
+	this->numOfSpecialties = universityOriginal.numOfSpecialties;
+	this->specials = new Special[this->numOfSpecialties];
+	for (int i = 0; i < this->numOfSpecialties; i++)
+	{
+		this->specials[i] = Special(universityOriginal.specials[i]);
+	}
 }

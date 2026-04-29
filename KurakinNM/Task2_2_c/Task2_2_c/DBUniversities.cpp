@@ -1,5 +1,21 @@
 #include "university.h"
 
+DBUniversities::DBUniversities()
+{
+	this->count = 0;
+	this->universities = nullptr;
+}
+
+DBUniversities::DBUniversities(const DBUniversities& DB)
+{
+	this->count = DB.count;
+	this->universities = new University[this->count];
+	for (int i = 0; i < this->count; i++)
+	{
+		this->universities[i] = University(DB.universities[i]);
+	}
+}
+
 DBUniversities::DBUniversities(const string& fileName)
 {
 	ifstream f(fileName);
@@ -21,16 +37,13 @@ DBUniversities::DBUniversities(const string& fileName)
 		strReplaceAll(buffer, "; ", ";");
 		strReplaceAll(buffer, " ,", ",");
 		strReplaceAll(buffer, ", ", ",");
-		this->universities[i] = University(buffer);
+		this->universities[i].copy(University(buffer));
 	}
 	f.close();
 }
 
-void DBUniversities::free()
+DBUniversities::~DBUniversities()
 {
-	for (int i = 0; i < this->count; i++) {
-		this->universities[i].free();
-	}
 	delete[] this->universities;
 }
 
