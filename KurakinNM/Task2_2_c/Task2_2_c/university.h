@@ -10,38 +10,47 @@
 using namespace std;
 
 struct Adres {
+private:
 	string city;
 	string street;
 	string home;
 
+public:
 	Adres();
-	Adres(const string& line);
 	Adres(const Adres& adres);
+	Adres(const string& line);
+	Adres(const string& city, const string& street, const string& home);
 
 	void print();
 };
 
 struct Special {
+private:
 	string name;
 	unsigned int contestDay;
 	unsigned int contestNight;
 	unsigned int contestOnline;
 	float cost;
 
+public:
 	Special();
+	Special(const Special& special);
 	Special(const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost);
 
 	void print();
 };
 
 struct University {
+private:
 	string name;
 	Adres adres;
 	unsigned int numOfSpecialties;
 	Special* specials;
 
+public:
 	University();
 	University(const string& line);
+
 	//University(const University& universityOriginal);
 	//University(const University& universityOriginal, const string& spec);
 	void print();
@@ -50,17 +59,16 @@ struct University {
 };
 
 struct DBUniversities {
+private:
 	University* universities;
 	int count;
 
+public:
 	DBUniversities(const string& fileName);
 	void print();
 
 	void free();
 };
-
-void read(string fileName, DBUniversities& universities);
-//void output(DBUniversities& univs);
 
 void allAboutUniver(const DBUniversities& univs, const string& name);
 void allAboutSpec(const DBUniversities& univs, const string& special);
@@ -69,5 +77,10 @@ void findSpec(const DBUniversities& univs);
 
 void CopyU(University& universityCopy, const University& universityOriginal);
 void CopyUOnlyOneSpec(University& universityCopy, const University& universityOriginal, const string& spec);
+
+void readNumLine(unsigned int*& mass, const string& str, int n);
+void readNumLine(int*& mass, const string& str, int n);
+void readNumLine(float*& mass, const string& str, int n);
+void strReplaceAll(string& str, const string before, const string after);
 
 #endif

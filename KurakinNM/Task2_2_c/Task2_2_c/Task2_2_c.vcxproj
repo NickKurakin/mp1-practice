@@ -124,9 +124,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Adres.cpp" />
     <ClCompile Include="auxiliary.cpp" />
+    <ClCompile Include="DBUniversities.cpp" />
     <ClCompile Include="find.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Special.cpp" />
+    <ClCompile Include="Univetsity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="universities.txt" />
