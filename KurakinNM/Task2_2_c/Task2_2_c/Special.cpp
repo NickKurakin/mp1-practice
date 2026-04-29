@@ -2,6 +2,7 @@
 
 Special::Special()
 {
+	this->universityName = "";
 	this->name = "";
 	this->contestDay = 0;
 	this->contestNight = 0;
@@ -11,6 +12,7 @@ Special::Special()
 
 Special::Special(const Special& special)
 {
+	this->universityName = special.universityName;
 	this->name = special.name;
 	this->contestDay = special.contestDay;
 	this->contestNight = special.contestNight;
@@ -18,8 +20,9 @@ Special::Special(const Special& special)
 	this->cost = special.cost;
 }
 
-Special::Special(const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost)
+Special::Special(const string& universityName, const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost)
 {
+	this->universityName = universityName;
 	this->name = name;
 	this->contestDay = contestDay;
 	this->contestNight = contestNight;
@@ -34,4 +37,13 @@ void Special::print() {
 			this->contestNight << "/" <<
 			this->contestOnline << endl;
 		cout << "Оплата при договорном обучении: " << this->cost << endl;
+}
+void Special::fullInfoPrint() {
+	cout << "Специальность: " << this->name << endl;
+	cout << "Вуз: " << this->universityName << endl;
+	cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный): " <<
+		this->contestDay << "/" <<
+		this->contestNight << "/" <<
+		this->contestOnline << endl;
+	cout << "Оплата при договорном обучении: " << this->cost << endl;
 }

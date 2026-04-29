@@ -1,37 +1,23 @@
 #include "university.h"
 
-/*void allAboutUniver(DBUniversities& univers, string name)
+void DBUniversities::allAboutUniver(const string& name)
 {
-	int i, j;
-	for (i = 0; i < univers.count; i++)
+	int i;
+	for (i = 0; i < this->count; i++)
 	{
-		if (univers.universities[i].name.find(name) != string::npos)
+		if (this->universities[i].checkName(name))
 		{
-			cout << "Название вуза: " << univers.universities[i].name << endl;
-			cout << "Адрес: " << univers.universities[i].adres.city << ", " << 
-				univers.universities[i].adres.street << ", " <<
-				univers.universities[i].adres.home << endl;
-			cout << "Специальности:" << endl;
-			for (j = 0; j < univers.universities[i].numOfSpecialties; j++)
-			{
-				cout << univers.universities[i].specialties[j] << endl;
-				cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный):" <<
-					univers.universities[i].contestDay[j] << "/" << 
-					univers.universities[i].contestNight[j] << "/" <<
-					univers.universities[i].contestOnline[j] << endl;
-				cout << "Оплата при договорном обучении: " << univers.universities[i].cost[j] << "р." << endl;
-			}
-			cout << endl;
+			this->universities[i].print();
 			break;
 		};
 	}
-	if (i == univers.count)
+	if (i == this->count)
 	{
 		cout << "Вуз не найден." << endl;
 	}
 }
 
-void allAboutSpec(DBUniversities& univs, string special)
+/*void allAboutSpec(DBUniversities& univs, string special)
 {
 	int i, j, n = 0;
 	for (i = 0; i < univs.count; i++)

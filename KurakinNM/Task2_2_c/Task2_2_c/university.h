@@ -57,6 +57,8 @@ public:
 
 	void copy(const University& universityOriginal);
 	void print();
+
+	bool checkName(const string& name);
 };
 
 struct DBUniversities {
@@ -70,6 +72,8 @@ public:
 	DBUniversities(const string& fileName);
 
 	~DBUniversities();
+
+	void allAboutUniver(const string& name);
 
 	void print();
 

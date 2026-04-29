@@ -27,14 +27,14 @@ int main()
 		case 0:
 			work = 0;
 			break;
-		/*case 1:
+		case 1:
 			while (getchar() != '\n');
 			cout << "¬ведите название вуза: ";
 			cin >> str;
 			cin.ignore();
-			allAboutUniver(DBUnivers, str);
+			DBUnivers.allAboutUniver(str);
 			break;
-		case 2:
+		/*case 2:
 			while (getchar() != '\n');
 			cout << "¬ведите название специальности: ";
 			cin >> str;

@@ -107,3 +107,8 @@ void University::copy(const University& universityOriginal)
 		this->specials[i] = Special(universityOriginal.specials[i]);
 	}
 }
+
+bool University::checkName(const string& name)
+{
+	return this->name.find(name) != string::npos;
+}
