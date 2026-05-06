@@ -27,6 +27,7 @@ void DBUniversities::allAboutSpec(const string& special)
 		if (spec != nullptr)
 		{
 			spec->fullInfoPrint();
+			cout << endl;
 			n++;
 		}
 	}
@@ -35,59 +36,42 @@ void DBUniversities::allAboutSpec(const string& special)
 		cout << "Специальность не найдена." << endl;
 	}
 }
-/*
-void minContestSpec(DBUniversities& universResult, DBUniversities& univers, string special)
+DBUniversities* DBUniversities::minContestSpec(const string& special)
 {
 	int i, j, n = 0;
 	int DU = -1, DS = -1;
 	int NU = -1, NS = -1;
 	int OU = -1, OS = -1;
-	for (i = 0; i < univers.count; i++)
+	Special* spec = nullptr;
+	DBUniversities* result = nullptr;
+	for (int i = 0; i < this->count; i++)
 	{
-		for (j = 0; j < univers.universities[i].numOfSpecialties; j++)
+		spec = this->universities[i].checkSpecial(special);
+		if (spec != nullptr)
 		{
-			if (univers.universities[i].specialties[j].find(special) != string::npos)
+			if (DU != -1)
 			{
-				if (DU != -1)
-				{
-					if (univers.universities[i].contestDay[j] < univers.universities[DU].contestDay[DS]) { DU = i; DS = j; }
-					if (univers.universities[i].contestNight[j] < univers.universities[NU].contestNight[NS]) { NU = i; NS = j; }
-					if (univers.universities[i].contestOnline[j] < univers.universities[OU].contestOnline[OS]) { OU = i; OS = j; }
-				}
-				else
-				{
-					DU = i; DS = j;
-					NU = i; NS = j;
-					OU = i; OS = j;
-				}
-				break;
+				if (spec->contestDay < DS) { DU = i; DS = spec->contestDay; }
+				if (spec->contestNight < NS) { NU = i; NS = spec->contestNight; }
+				if (spec->contestOnline < OS) { OU = i; OS = spec->contestOnline; }
+			}
+			else
+			{
+				DU = i; DS = spec->contestDay;
+				NU = i; NS = spec->contestNight;
+				OU = i; OS = spec->contestOnline;
 			}
 		}
 	}
 	if (DU == -1) cout << "Специальность не найдена." << endl;
 	else {
-		if (DU != NU && NU != OU && DU != OU) {
-			universResult.count = 3;
-			universResult.universities = new University[3];
-			CopyUOnlyOneSpec(universResult.universities[0], univers.universities[DU], special);
-			CopyUOnlyOneSpec(universResult.universities[1], univers.universities[NU], special);
-			CopyUOnlyOneSpec(universResult.universities[2], univers.universities[OU], special);
-		}
-		else if (DU == NU && NU == OU) {
-			universResult.count = 1;
-			universResult.universities = new University[1];
-			CopyUOnlyOneSpec(universResult.universities[0], univers.universities[DU], special);
-		}
-		else {
-			universResult.count = 2;
-			universResult.universities = new University[2];
-			CopyUOnlyOneSpec(universResult.universities[0], univers.universities[DU], special);
-			if (DU != NU) CopyUOnlyOneSpec(universResult.universities[1], univers.universities[NU], special);
-			else CopyUOnlyOneSpec(universResult.universities[1], univers.universities[OU], special);
-		};
+		result = new DBUniversities(University(this->universities[DU], *this->universities[DU].checkSpecial(special)),
+			University(this->universities[NU], *this->universities[NU].checkSpecial(special)),
+			University(this->universities[OU], *this->universities[OU].checkSpecial(special)));
 	}
+	return result;
 }
-
+/*
 void findSpec(DBUniversities& univs)
 {
 	int i, j;

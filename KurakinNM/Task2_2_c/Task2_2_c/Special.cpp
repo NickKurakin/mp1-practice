@@ -42,3 +42,17 @@ bool Special::checkName(const string& name)
 {
 	return this->name.find(name) != string::npos;
 }
+
+bool Special::operator==(const Special& spec) const
+{
+	if (this->name == spec.name &&
+		this->contestDay == spec.contestDay &&
+		this->contestNight == spec.contestNight &&
+		this->contestOnline == spec.contestOnline &&
+		this->cost == spec.cost) return true;
+	return false;
+}
+bool Special::operator!=(const Special& spec) const
+{
+	return !(this->operator==(spec));
+}

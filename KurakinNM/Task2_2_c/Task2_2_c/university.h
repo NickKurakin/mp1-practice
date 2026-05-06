@@ -21,10 +21,11 @@ public:
 	Adres(const string& city, const string& street, const string& home);
 
 	void print();
+	bool operator==(const Adres& adres) const;
+	bool operator!=(const Adres& adres) const;
 };
 
 struct Special {
-private:
 	string universityName;
 	string name;
 	unsigned int contestDay;
@@ -32,13 +33,15 @@ private:
 	unsigned int contestOnline;
 	float cost;
 
-public:
 	Special();
 	Special(const string& universityName, const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost);
 
 	void print();
 	void fullInfoPrint();
 	bool checkName(const string& name);
+
+	bool operator==(const Special& spec) const;
+	bool operator!=(const Special& spec) const;
 };
 
 struct University {
@@ -59,6 +62,9 @@ public:
 	void copy(const University& universityOriginal);
 	void print();
 
+	bool operator==(const University& univ) const;
+	bool operator!=(const University& univ) const;
+
 	bool checkName(const string& name);
 	Special* checkSpecial(const string& special);
 };
@@ -71,18 +77,19 @@ private:
 public:
 	DBUniversities();
 	DBUniversities(const DBUniversities& DB);
+	DBUniversities(const University& DU, const University& NU, const University& OU);
 	DBUniversities(const string& fileName);
 
 	~DBUniversities();
 
 	void allAboutUniver(const string& name);
 	void allAboutSpec(const string& special);
+	DBUniversities* minContestSpec(const string& special);
 
 	void print();
 
 };
 
-void allAboutSpec(const DBUniversities& univs, const string& special);
 void minContestSpec(DBUniversities& universResult, const DBUniversities& univers, const string& special);
 void findSpec(const DBUniversities& univs);
 

@@ -28,3 +28,15 @@ void Adres::print()
 		<< this->street << ", "
 		<< this->home << endl;
 }
+
+bool Adres::operator==(const Adres& adres) const
+{
+	if (this->city == adres.city &&
+		this->street == adres.street &&
+		this->home == adres.home) return true;
+	return false;
+}
+bool Adres::operator!=(const Adres& adres) const
+{
+	return !(this->operator==(adres));
+}

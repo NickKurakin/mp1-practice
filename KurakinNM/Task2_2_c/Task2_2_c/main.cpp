@@ -10,6 +10,7 @@ int main()
 	system("chcp 1251");
 	system("cls");
 	DBUniversities DBUnivers("universities.txt");
+	DBUniversities* FindedDBUnivers;
 
 	while(work)
 	{
@@ -41,16 +42,16 @@ int main()
 			cin.ignore();
 			DBUnivers.allAboutSpec(str);
 			break;
-		/*case 3:
+		case 3:
 			while (getchar() != '\n');
 			cout << "¬ведите название специальности: ";
 			cin >> str;
 			cin.ignore();
-			minContestSpec(FindedDBUnivers, DBUnivers, str);
-			FindedDBUnivers.print();
-			FindedDBUnivers.~DBUniversities();
+			FindedDBUnivers = DBUnivers.minContestSpec(str);
+			FindedDBUnivers->print();
+			delete FindedDBUnivers;
 			break;
-		case 4:
+		/*case 4:
 			findSpec(DBUnivers);
 			break;*/
 		case 5:

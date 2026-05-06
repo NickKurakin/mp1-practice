@@ -125,3 +125,23 @@ Special* University::checkSpecial(const string& special)
 	}
 	return nullptr;
 }
+
+bool University::operator==(const University& univ) const
+{
+	if (this->name == univ.name &&
+		this->adres == univ.adres &&
+		this->numOfSpecialties == univ.numOfSpecialties);
+	{
+		bool result = true;
+		for (int i = 0; i < this->numOfSpecialties; i++)
+		{
+			result = result && (this->specials[i] == univ.specials[i]);
+		}
+		return result;
+	}
+	return false;
+}
+bool University::operator!=(const University& univ) const
+{
+	return !(this->operator==(univ));
+}
