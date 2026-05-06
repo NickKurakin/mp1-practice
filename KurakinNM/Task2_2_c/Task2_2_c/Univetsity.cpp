@@ -112,3 +112,16 @@ bool University::checkName(const string& name)
 {
 	return this->name.find(name) != string::npos;
 }
+
+Special* University::checkSpecial(const string& special)
+{
+	bool result = false;
+	for (int i = 0; i < this->numOfSpecialties; i++)
+	{
+		if (this->specials[i].checkName(special))
+		{
+			return &(this->specials[i]);
+		}
+	}
+	return nullptr;
+}

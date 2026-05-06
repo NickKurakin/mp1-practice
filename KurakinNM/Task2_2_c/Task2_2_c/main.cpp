@@ -34,14 +34,14 @@ int main()
 			cin.ignore();
 			DBUnivers.allAboutUniver(str);
 			break;
-		/*case 2:
+		case 2:
 			while (getchar() != '\n');
 			cout << "¬ведите название специальности: ";
 			cin >> str;
 			cin.ignore();
-			allAboutSpec(DBUnivers, str);
+			DBUnivers.allAboutSpec(str);
 			break;
-		case 3:
+		/*case 3:
 			while (getchar() != '\n');
 			cout << "¬ведите название специальности: ";
 			cin >> str;

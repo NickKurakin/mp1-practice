@@ -10,16 +10,6 @@ Special::Special()
 	this->cost = 0;
 }
 
-Special::Special(const Special& special)
-{
-	this->universityName = special.universityName;
-	this->name = special.name;
-	this->contestDay = special.contestDay;
-	this->contestNight = special.contestNight;
-	this->contestOnline = special.contestOnline;
-	this->cost = special.cost;
-}
-
 Special::Special(const string& universityName, const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost)
 {
 	this->universityName = universityName;
@@ -46,4 +36,9 @@ void Special::fullInfoPrint() {
 		this->contestNight << "/" <<
 		this->contestOnline << endl;
 	cout << "Оплата при договорном обучении: " << this->cost << endl;
+}
+
+bool Special::checkName(const string& name)
+{
+	return this->name.find(name) != string::npos;
 }

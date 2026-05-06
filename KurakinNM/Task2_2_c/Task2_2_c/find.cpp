@@ -17,27 +17,17 @@ void DBUniversities::allAboutUniver(const string& name)
 	}
 }
 
-/*void allAboutSpec(DBUniversities& univs, string special)
+void DBUniversities::allAboutSpec(const string& special)
 {
-	int i, j, n = 0;
-	for (i = 0; i < univs.count; i++)
+	int n = 0;
+	Special* spec = nullptr;
+	for (int i = 0; i < this->count; i++)
 	{
-		for (j = 0; j < univs.universities[i].numOfSpecialties; j++)
+		spec = this->universities[i].checkSpecial(special);
+		if (spec != nullptr)
 		{
-			if (univs.universities[i].specialties[j].find(special) != string::npos)
-			{
-				cout << "Специальность: " << univs.universities[i].specialties[j] << endl;
-				cout << "Вуз: " << univs.universities[i].name << endl;
-				cout << "Конкурс прошлого года (Дневной/Вечерний/Заочный):" <<
-					univs.universities[i].contestDay[j] << "/" <<
-					univs.universities[i].contestNight[j] << "/" <<
-					univs.universities[i].contestOnline[j] << endl;
-				cout << "Оплата при договорном обучении: " << univs.universities[i].cost[j] << "р." << endl;
-				cout << endl;
-
-				n++;
-				break;
-			}
+			spec->fullInfoPrint();
+			n++;
 		}
 	}
 	if (n == 0)
@@ -45,7 +35,7 @@ void DBUniversities::allAboutUniver(const string& name)
 		cout << "Специальность не найдена." << endl;
 	}
 }
-
+/*
 void minContestSpec(DBUniversities& universResult, DBUniversities& univers, string special)
 {
 	int i, j, n = 0;

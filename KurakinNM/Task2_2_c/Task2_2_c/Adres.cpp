@@ -7,13 +7,6 @@ Adres::Adres()
 	this->home = "";
 }
 
-Adres::Adres(const Adres& adres)
-{
-	this->city = adres.city;
-	this->street = adres.street;
-	this->home = adres.home;
-}
-
 Adres::Adres(const string& line)
 {
 	stringstream ss(line);

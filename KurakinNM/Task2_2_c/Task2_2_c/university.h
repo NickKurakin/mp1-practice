@@ -17,7 +17,6 @@ private:
 
 public:
 	Adres();
-	Adres(const Adres& adres);
 	Adres(const string& line);
 	Adres(const string& city, const string& street, const string& home);
 
@@ -35,11 +34,11 @@ private:
 
 public:
 	Special();
-	Special(const Special& special);
 	Special(const string& universityName, const string& name, unsigned int contestDay, unsigned int contestNight, unsigned int contestOnline, float cost);
 
 	void print();
 	void fullInfoPrint();
+	bool checkName(const string& name);
 };
 
 struct University {
@@ -61,6 +60,7 @@ public:
 	void print();
 
 	bool checkName(const string& name);
+	Special* checkSpecial(const string& special);
 };
 
 struct DBUniversities {
@@ -76,6 +76,7 @@ public:
 	~DBUniversities();
 
 	void allAboutUniver(const string& name);
+	void allAboutSpec(const string& special);
 
 	void print();
 
