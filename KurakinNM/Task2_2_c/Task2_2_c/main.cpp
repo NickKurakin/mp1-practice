@@ -33,6 +33,7 @@ int main()
 			cout << "¬ведите название вуза: ";
 			cin >> str;
 			cin.ignore();
+			cout << endl;
 			DBUnivers.allAboutUniver(str);
 			break;
 		case 2:
@@ -40,6 +41,7 @@ int main()
 			cout << "¬ведите название специальности: ";
 			cin >> str;
 			cin.ignore();
+			cout << endl;
 			DBUnivers.allAboutSpec(str);
 			break;
 		case 3:
@@ -47,6 +49,7 @@ int main()
 			cout << "¬ведите название специальности: ";
 			cin >> str;
 			cin.ignore();
+			cout << endl;
 			FindedDBUnivers = DBUnivers.minContestSpec(str);
 			FindedDBUnivers->print();
 			delete FindedDBUnivers;

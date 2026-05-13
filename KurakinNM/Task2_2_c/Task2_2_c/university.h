@@ -90,7 +90,6 @@ public:
 
 };
 
-void minContestSpec(DBUniversities& universResult, const DBUniversities& univers, const string& special);
 void findSpec(const DBUniversities& univs);
 
 void readNumLine(unsigned int*& mass, const string& str, int n);
