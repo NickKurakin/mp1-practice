@@ -10,12 +10,10 @@
 using namespace std;
 
 struct Adres {
-private:
 	string city;
 	string street;
 	string home;
 
-public:
 	Adres();
 	Adres(const string& line);
 	Adres(const string& city, const string& street, const string& home);
@@ -67,6 +65,7 @@ public:
 
 	bool checkName(const string& name);
 	Special* checkSpecial(const string& special);
+	void minContest();
 };
 
 struct DBUniversities {
@@ -85,12 +84,11 @@ public:
 	void allAboutUniver(const string& name);
 	void allAboutSpec(const string& special);
 	DBUniversities* minContestSpec(const string& special);
+	void minContest();
 
 	void print();
 
 };
-
-void findSpec(const DBUniversities& univs);
 
 void readNumLine(unsigned int*& mass, const string& str, int n);
 void readNumLine(int*& mass, const string& str, int n);

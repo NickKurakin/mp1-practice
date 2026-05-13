@@ -145,3 +145,33 @@ bool University::operator!=(const University& univ) const
 {
 	return !(this->operator==(univ));
 }
+
+void University::minContest()
+{
+	int minDay = -1,minNight = -1,minOnline = -1;
+	int IDDay, IDNight, IDOnline;
+	for (int i = 0; i < this->numOfSpecialties; i++)
+	{
+		if (minDay == -1)
+		{
+			minDay = this->specials[i].contestDay; IDDay = i;
+			minNight = this->specials[i].contestNight; IDNight = i;
+			minOnline = this->specials[i].contestOnline; IDOnline = i;
+		}
+		else
+		{
+			if (this->specials[i].contestDay < minDay) { minDay = this->specials[i].contestDay; IDDay = i; }
+			if (this->specials[i].contestNight < minNight) { minNight = this->specials[i].contestNight; IDNight = i; }
+			if (this->specials[i].contestOnline < minOnline) { minOnline = this->specials[i].contestOnline; IDOnline = i; }
+		}
+	}
+	cout << "Название вуза: " << this->name << endl;
+	this->adres.print();
+	cout << "Минимальный дневной конкурс: " << minDay << endl;
+	cout << "Специальность: " << specials[IDDay].name << endl;
+	cout << "Минимальный вечерний конкурс: " << minNight << endl;
+	cout << "Специальность: " << specials[IDNight].name << endl;
+	cout << "Минимальный заочный конкурс: " << minOnline << endl;
+	cout << "Специальность: " << specials[IDOnline].name << endl;
+	cout << endl;
+}

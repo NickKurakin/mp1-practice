@@ -19,7 +19,7 @@ int main()
 			"(1 - всё о данном вузе, " <<
 			"2 - всё о данной специальности, " << 
 			"3 - поиск минимального конкурса по данной специальности, " <<
-			"4 - по специальностям каждого вуза, " <<
+			"4 - поиск минимального конкурса по специальностям каждого вуза, " <<
 			"5 - вывести все вузы, " <<
 			"0 - выход):";
 		cin >> option;
@@ -54,9 +54,9 @@ int main()
 			FindedDBUnivers->print();
 			delete FindedDBUnivers;
 			break;
-		/*case 4:
-			findSpec(DBUnivers);
-			break;*/
+		case 4:
+			DBUnivers.minContest();
+			break;
 		case 5:
 			DBUnivers.print();
 			break;

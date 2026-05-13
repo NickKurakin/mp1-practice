@@ -71,96 +71,11 @@ DBUniversities* DBUniversities::minContestSpec(const string& special)
 	}
 	return result;
 }
-/*
-void findSpec(DBUniversities& univs)
+
+void DBUniversities::minContest()
 {
-	int i, j;
-	int DS = -1;
-	int NS = -1;
-	int OS = -1;
-	for (i = 0; i < univs.count; i++)
+	for (int i = 0; i < this->count; i++)
 	{
-		DS = -1;
-		NS = -1;
-		OS = -1;
-		cout << "Название вуза: " << univs.universities[i].name << endl;
-		cout << "Адрес: " << univs.universities[i].adres.city << ", " <<
-			univs.universities[i].adres.street << ", " <<
-			univs.universities[i].adres.home << endl;
-
-		for (j = 0; j < univs.universities[i].numOfSpecialties; j++)
-		{
-			if (DS != -1)
-			{
-				if (univs.universities[i].contestDay[j] < univs.universities[i].contestDay[DS]) DS = j;
-				if (univs.universities[i].contestNight[j] < univs.universities[i].contestNight[NS]) NS = j;
-				if (univs.universities[i].contestOnline[j] < univs.universities[i].contestOnline[OS]) OS = j;
-			}
-			else
-			{
-				DS = j;
-				NS = j;
-				OS = j;
-			}
-		}
-		cout << "Минимальный дневной конкурс: " << univs.universities[i].contestDay[DS] << endl;
-		cout << "Специальность: " << univs.universities[i].specialties[DS] << endl;
-		cout << "Минимальный вечерний конкурс: " << univs.universities[i].contestNight[NS] << endl;
-		cout << "Специальность: " << univs.universities[i].specialties[NS] << endl;
-		cout << "Минимальный заочный конкурс: " << univs.universities[i].contestOnline[OS] << endl;
-		cout << "Специальность: " << univs.universities[i].specialties[OS] << endl;
-		cout << endl;
+		this->universities[i].minContest();
 	}
-}*/
-
-/*void cpy(char* input, char** output, int len)
-{
-
-	(*output) = (char*)malloc(len + 1);
-	strncpy(*output, input, len + 1);
 }
-
-int find(BOOK* lib, BOOK** findedBooks, int numOfBooks, char* str)
-{
-	int i, j, k, n = 0, strLen;
-	char* p;
-	strLen = strlen(str) - 1;
-	for (i = 0; i < numOfBooks; i++)
-	{
-		for (j = 0; j < lib[i].numberOfAuthors; j++)
-		{
-			if (strstr(lib[i].authors[j], str))
-			{
-				n++;
-				break;
-			};
-		}
-	}
-
-	*findedBooks = (BOOK*)malloc(n * sizeof(BOOK));
-	n = 0;
-
-	for (i = 0; i < numOfBooks; i++)
-	{
-		for (j = 0; j < lib[i].numberOfAuthors; j++)
-		{
-			if (strstr(lib[i].authors[j], str))
-			{
-				cpy(lib[i].title, &((*findedBooks)[n].title), strlen(lib[i].title));
-				cpy(lib[i].ed, &((*findedBooks)[n].ed), strlen(lib[i].ed));
-
-				(*findedBooks)[n].year = lib[i].year;
-				(*findedBooks)[n].numberOfAuthors = lib[i].numberOfAuthors;
-
-				(*findedBooks)[n].authors = (char**)malloc(lib[i].numberOfAuthors * sizeof(char*));
-				for (k = 0; k < lib[i].numberOfAuthors; k++)
-				{
-					cpy(lib[i].authors[k], &((*findedBooks)[n].authors[k]), strlen(lib[i].authors[k]));
-				}
-				n++;
-				break;
-			}
-		}
-	}
-	return n;
-}*/
