@@ -45,7 +45,6 @@ DBUniversities::DBUniversities(const string& fileName)
 	char* num;
 	string buffer, token;
 	while (getline(f, buffer)) n++;
-	cout << n << endl;
 	this->count = n;
 
 	f.clear();
